@@ -1,0 +1,16 @@
+create database company;
+use company;
+create table employee(empid int not null,firstname varchar(20),lastname varchar(20),empage int);
+select * from employee;
+insert into employee values (1,'Ank','Kam',20);
+create table employee1(empid int not null,firstname varchar(20),lastname varchar(20),unique (empid));
+insert into employee1 values (1,'Ank','Kam');
+insert into employee1 values (NULL,'par','Kam');
+create table employee2(empid int not null,firstname varchar(20),lastname varchar(20),empage int,check(empage>20));
+insert into employee2 values (1,'Ank','Kam',20);
+alter table employee2 add column salary int, add check(salary>=5000);
+show create table employee2;
+alter table employee2 drop check employee2_chk_2;
+create table emp6(empid int not null,firstname varchar(20),lastname varchar(20),empage int,check(empage>20),primary key(empid));
+insert into employee values (1,'Ank','Kam',21);
+create table employee6(empid int not null,firstname varchar(20),lastname varchar(20),empage int,salary int,check(salary>2000),check(empage>20),primary key(empid));
