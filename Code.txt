@@ -1,0 +1,450 @@
+CREATE DATABASE CompanyDB;
+USE CompanyDB;
+show databases;
+CREATE TABLE Employees (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(50),
+    Salary int,
+    JoinDate DATE);
+select * from employees;
+
+CREATE TABLE Departments (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(100));
+select * from departments;
+
+ALTER TABLE Employees 
+ADD Email VARCHAR(100);
+
+ALTER TABLE Departments 
+ADD dept_location VARCHAR(100);
+
+ALTER TABLE Employees 
+ADD phone int not null;
+
+ALTER TABLE Employees 
+modify EmpName VARCHAR(100);
+
+desc departments;
+describe employees;
+
+ALTER TABLE Departments drop primary key;
+alter table departments add primary key(DeptID);
+ALTER TABLE Employees 
+ADD DeptID INT;
+ALTER TABLE Employees ADD FOREIGN KEY(DeptID) REFERENCES Departments(DeptID);
+
+ALTER TABLE Employees
+RENAME COLUMN EmpName TO EmployeeName;
+
+ALTER TABLE Employees 
+ADD age int;
+
+ALTER TABLE Employees
+ADD CHECK (Age >= 18 AND Salary > 0);
+
+ALTER TABLE Employees DROP COLUMN Phone;
+desc employees;
+
+ALTER TABLE Employees RENAME TO EmployeeDetails;
+desc table employeedetails;
+
+ALTER TABLE EmployeeDetails DROP CHECK ;
+
+
+create database college1;
+use college1;
+create table employee(empid int primary key,empname varchar(15),city varchar(10),bdate date);
+create table investor(invest_no int primary key,invest_name varchar(15),city varchar(10),inv_amt int,bdate date);
+
+desc employee;
+desc investor;
+insert into employee values(1,"ankush","pune",'2004-04-08');
+insert into employee values(2,"parth","mumbai",'2025-09-08');
+insert into employee values(3,"swara","pune",'2005-11-11');
+insert into employee values(4,"vedant","pune",'2005-11-11');
+insert into employee values(5,"sanket","mumbai",'2012-11-12');
+
+select * from employee;
+
+insert into investor values(2,"lohar","mumbai",1020,'2001-04-09'),
+(3,"Karande","pune",5000,'2005-11-11'),
+(4,"kamble","pune",4000,'2005-04-12'),
+(5,"kawthe","mumbai",3000,'2004-04-08');
+
+select * from investor;
+
+alter table employee add column age int,add check(age<=50);
+alter table employee add column salary int,add check(salary>=10000);
+
+update employee set age=30 where empid=1;
+update employee set salary=50000 where empid=1;
+
+alter table investor add column age int;
+update investor set age=30 where invest_no=1;
+
+alter table investor modify invest_name text;
+desc investor;
+select * from investor;
+
+alter table employee rename column empid to e_id;
+
+update employee set city="nagpur" where e_id=4;
+select * from employee;
+
+delete from investor where invest_no=5;
+
+alter table investor drop column age;
+
+alter table employee drop constraint age;
+
+alter table employee add column invest_no int;
+ALTER TABLE employee ADD FOREIGN KEY(invest_no) REFERENCES investor(invest_no);
+
+select invest_no,invest_name,city,inv_amt from investor;
+
+select * from employee;
+
+alter table investor rename inv;
+
+truncate employee;
+truncate inv;
+
+drop table employee;
+drop table inv;
+
+create database as2;
+use as2;
+-- 1-------------------------------------------------------------------------------------------------
+create table employee(Emp_no int primary key, E_name varchar(10), E_address varchar(10), E_ph_no int,
+ Dept_no int , Dept_name varchar(10),Job_id int, Designation varchar(10),datee date, Salary int);
+insert into employee values(1,'ankusk','bibewadi',987654321,101,'sales',201,'manager','1981-5-1',100000);
+insert into employee values(2,'swarali','pune city',987654321,102,'sales',202,'manager','1981-12-3',200000);
+insert into employee values(3,'parth','hadapsar',987654321,103,'management',203,'clerk','1981-12-17',300000);
+insert into employee values(4,'sumit','bibewadi',987654321,101,'management',204,'clerk','1980-1-19',400000);
+insert into employee values(5,'vedant','pune city',987654321,102,'sales',205,'head','1981-5-1',500000);
+
+select * from employee;
+drop table employee;
+-- -----1-----------------------------------------------------------
+select Emp_no,E_name,Salary from employee where Designation='manager';
+
+-- -----------2-------------------------------------------------------
+select * from employee where Salary>10000;
+
+-- --------------3----------------------------------------------------
+select * from employee where datee>'1981-1-1' order by designation;
+
+-- ---------------4--------------------------------------------------
+alter table employee add experience int;
+update employee set experience=20 where Emp_no=2;
+
+select E_name,experience,Salary/30 as daily_salary from employee;
+
+-- -----------------5------------------------------------------------
+select * from employee where designation='clerk' or designation='analyst';
+
+-- ------------------6-----------------------------------------------
+-- 1-MAY-1981, 3-DEC-1981, 17-DEC-1981, 19-JAN-1980.
+select * from employee where datee='1981-5-1' or datee='1981-12-3' or datee='1981-12-17' or datee='1980-1-19';
+
+-- --------------------7--------------------------------------------
+insert into employee values(6,'raju','pune city',987654321,10,'sales',20,'analyst','1981-5-1',500000);
+insert into employee values(7,'mohit','pune city',987654321,20,'sales',10,'analyst','1981-5-1',500000);
+
+-- ---------------------8-------------------------------------------
+select E_name from employee where E_name like 's%';
+
+-- -----------------------9-----------------------------------------
+select max(Salary) from employee;
+
+-- ---------------------------10-----------------------------------
+ insert into employee values(8,'hadal','pune city',987654321,20,'sales',10,'analyst','1981-5-1',500000,10);
+
+ select E_name,substr(E_name,1,5)as first_five from employee where E_name like "h%" 
+ and designation not in('president','MGR')order by Salary asc;
+ 
+ -- -----------11----------------------
+ select min(Salary) as mini_sal,max(Salary) as maxi_sal,experience from employee group by experience;
+ 
+ -- --------------------------------12---------------------------------
+ select sum(Salary) from employee;
+ 
+ -- ----------------------------------13-------------------------------
+ select avg(Salary) from employee where Dept_name='Management';
+ 
+ -- -------------------------------------14---------------------------
+ select distinct Salary from employee;
+ 
+ create database basicjoin;
+use basicjoin;
+
+create table emp(eid int primary key,ename varchar(15));
+desc emp;
+
+-- Reset the table data first
+TRUNCATE TABLE emp; -- Or use: DELETE FROM emp;
+
+INSERT INTO emp (eid, ename) VALUES 
+(1, 'Alice'),
+(2, 'Bob'),
+(3, 'Charlie'),
+(4, 'David'),
+(5, 'Eva');
+
+create table project(pid int primary key,pname varchar(10),eid int,foreign key(eid) references emp(eid));
+
+-- Reset the table data first
+TRUNCATE TABLE project; -- Or use: DELETE FROM project;
+
+INSERT INTO project (pid, pname, eid) VALUES 
+-- Employee 1 has 3 projects
+(101, 'Alpha', 1),
+(102, 'Beta', 1),
+(103, 'Omega', 1),
+
+-- Employee 2 has 2 projects
+(104, 'Gamma', 2),
+(105, 'Delta', 2);
+
+
+-- Inner Join 
+select * from emp join project
+on emp.eid=project.eid;
+
+select e.ename,p.pname from emp e inner join
+project p on e.eid=p.eid;
+
+-- Right Join
+select * from emp right join project
+on emp.eid=project.eid;
+select e.ename,p.pname from emp e right join
+project p on e.eid=p.eid;
+
+-- left join
+select e.ename,p.pname from emp e left join
+project p on e.eid=p.eid;
+
+-- outer join
+select * from emp left join project on
+emp.eid=project.eid union select * from emp right join project on
+emp.eid=project.eid;
+
+select emp.ename, project.pname from emp left join project
+on emp.eid=project.eid where project.eid is not null;
+
+select emp.ename, project.pname from emp left join project
+on emp.eid=project.eid where project.eid is null;
+
+create database orgi;
+use orgi;
+
+create table emp(eid int primary key,fname varchar(15),lname varchar(15),gender char,role varchar(10),
+dept varchar(10),managerid varchar(10));
+insert into emp values(1,"ank","gpt",'m',"leader","retail","m11");
+insert into emp values(2,"swa","kar",'f',"leader","depart","m12");
+insert into emp values(3,"par","loh",'m',"manager","retail","m13");
+insert into emp values(4,"san","kat",'f',"manager","depart","m14");
+insert into emp values(5,"ved","kam",'m',"president","head","m15");
+
+select distinct dept from emp order by dept;
+select distinct role from emp order by role;
+
+select * from emp where role="president" and dept="head";
+
+select * from emp where role="manager" or dept="depart";
+
+select * from emp where role in("president","manager");
+
+select * from emp where role not in("president","manager");
+
+alter table emp add column exp int;
+
+update emp set exp=4 where eid=1;
+update emp set exp=10 where eid=2;
+update emp set exp=6 where eid=3;
+
+select * from emp;
+
+select * from emp where lname like 'l%';
+
+select * from emp order by exp limit 3;
+
+select * from emp where exp is null;
+select * from emp where exp is not null;
+
+select count(eid) from emp where dept='depart';
+select min(exp) from emp;
+select max(exp) from emp;
+select sum(exp) from emp;
+select avg(exp) from emp;
+
+select dept,count(*) as emp_count from emp group by dept;
+select role,count(*) as emp_count from emp group by role;
+select gender,count(*) as emp_count from emp group by gender;
+
+select role,sum(exp) as total_exp from emp group by role having total_exp>=5 and total_exp<=20;
+select dept,sum(exp) as total_exp from emp group by dept having total_exp>=5 and total_exp<=20;
+
+select dept,count(eid) from emp group by dept
+having count(eid)>=2
+order by dept;
+
+
+
+
+create database dbms;
+use dbms;
+select now();
+select now() as current_datetime;
+
+create table customer(cid int,cname varchar(15),city varchar(10));
+alter table customer add column cdate date;
+
+select * from customer;
+
+create database user;
+show databases;
+use user;
+create table customer(custid int,custname varchar(15),city varchar(10),product varchar(15),price int);
+drop table customer;
+insert into customer values(1,"ank","pune","charger",2000);
+insert into customer values(2,"swa","pune","headphone",2000);
+insert into customer values(3,"par","mumbai","charger",1500);
+insert into customer values(4,"san","mumbai","laptop",1700);
+insert into customer values(5,"saa","kyoto","adaptor",8000,"suu");
+
+
+alter table customer add primary key(custid);
+select * from customer;
+select * from customer where custid=1 or custid=2;
+create table clonetable as select * from customer;
+select * from clonetable;
+/*Sorting                       -----------------------------------------*/
+
+select * from customer order by price;
+select * from customer order by price desc;
+select * from customer order by city,price desc;
+select * from customer order by city desc,price asc;
+
+/*Case conversion*/
+select upper(custname),lower(product) from customer where custid<3;
+alter table customer add column(lastname varchar(10));
+update customer set lastname="kam" where custid=2;
+
+select concat(custname,' ',lastname) as fullname from customer;
+
+/*use of SUBSTR AND INSTR*/
+select * from customer;
+select substr(custname,1,3) from customer;
+select instr(custname,'a') as position from customer;
+select substr(custname,1,2),instr(custname,'a')as instring from customer;
+select substr(custname,1,2),instr(custname,'a')as instring from customer where custid=1;
+
+-- Start a new transaction
+
+/*;BEGIN;
+
+-- or
+START TRANSACTION; To execute statements as a single transaction,
+ we must explicitlly start the transaction.
+ COMMIT:- Saves all changes made during the transcation.
+ ROLLBACK:- Undos all changes made during the transaction.
+ SAVEPOINT:- Sets a save point within  a transaction to roll back to later 
+ ROLLBACK TO SAVEPOINT :- Rolls back to a specific savepoint without 
+ affecting earlier changes */
+ 
+ drop database TCL;
+ create database TCL;
+ 
+ use TCL;
+ 
+ create table orders(
+ order_id int primary key,
+ customer_name varchar(100),
+ status varchar(50)
+ );
+ 
+ desc orders;
+ 
+ -- start the transaction--
+ 
+ set autocommit=0; /* in mysql auto commit mode is enable by default,
+ which means whenever we execute any sql statement is automatically commited
+ */
+ 
+ start transaction;
+ 
+ insert into orders values( 101 , 'Geet ', 'Pending');
+ insert into orders values(102 , 'Bob', 'Pending');
+ commit;
+ update orders set customer_name= 'Raj' where order_id = 102;
+ rollback;
+ 
+-- truncate table orders;
+
+select * from orders;
+ 
+ -- step 1: Insert a few orders
+ 
+ insert into orders values(103 , 'om', 'pending');
+ insert into orders values(104, 'sahil', 'pending');
+ savepoint sp1;
+ 
+ select * from orders;
+ 
+ -- step 2: update 
+ 
+ update orders set customer_name= 'shyam' where order_id = 103;
+ 
+ 
+ -- step 3 : Delete another order 
+ 
+ delete from orders where  order_id = 102;
+ savepoint sp3
+ 
+ -- we want to undo the delete but keep the update 
+ 
+ROLLBACK to savepoint sp2;
+use college;
+select * from employee;
+create table employee(empid int not null,firstname varchar(20),lastname varchar(20),empage int);
+insert into employee values (1,'Ank','Kam',20);
+create index demoindex on employee(firstname,lastname);
+show indexes from employee;
+create table person(personid int not null auto_increment,lastname varchar(10),age int,primary key(personid));
+insert into person(lastname,age) values('kamank',19);
+select * from person;
+
+create database company;
+use company;
+create table employee(empid int not null,firstname varchar(20),lastname varchar(20),empage int);
+select * from employee;
+insert into employee values (1,'Ank','Kam',20);
+create table employee1(empid int not null,firstname varchar(20),lastname varchar(20),unique (empid));
+insert into employee1 values (1,'Ank','Kam');
+insert into employee1 values (NULL,'par','Kam');
+create table employee2(empid int not null,firstname varchar(20),lastname varchar(20),empage int,check(empage>20));
+insert into employee2 values (1,'Ank','Kam',20);
+alter table employee2 add column salary int, add check(salary>=5000);
+show create table employee2;
+alter table employee2 drop check employee2_chk_2;
+create table emp6(empid int not null,firstname varchar(20),lastname varchar(20),empage int,check(empage>20),primary key(empid));
+insert into employee values (1,'Ank','Kam',21);
+create table employee6(empid int not null,firstname varchar(20),lastname varchar(20),empage int,salary int,check(salary>2000),check(empage>20),primary key(empid));
+
+create database college;
+show databases;
+use college;
+create table Employees(EmpID int, FirstName varchar(10),LastName varchar(10),EmpAge int,Empzone varchar(10));
+insert into Employees values (1,'Ved','Kam',19,'east');
+desc Employees;
+-- single row insert
+insert into Employees values (2,'Ank','Kam',20,'west');
+-- multi row insert
+insert into Employees values (3,'Swa','Kam',21,'north'),(4,'Par','Kam',22,NULL);
+update Employees set Empzone='East' where EmpID=4;
+select * from Employees;
+delete from Employees where EmpID=4;
+truncate Employees;
+

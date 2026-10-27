@@ -12,7 +12,7 @@ insert into employee values(5,'vedant','pune city',987654321,102,'sales',205,'he
 select * from employee;
 drop table employee;
 -- -----1-----------------------------------------------------------
-select Emp_no,E_name,Salary from employee where Dept_name='management';
+select Emp_no,E_name,Salary from employee where Designation='manager';
 
 -- -----------2-------------------------------------------------------
 select * from employee where Salary>10000;
